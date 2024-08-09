@@ -42,6 +42,21 @@ router.get("/findUserCategories", async function (req, res, next) {
    let user = await userModel.find({categories : {$all : "web development"}});
     res.send(user)
   });
+
+  // Q.3 How can i search for documents with a specific date range in Mongoose
+  router.get("/findUserDate", async function (req, res, next) {
+    let startDate = new Date("2024-08-09");
+    let endDate = new Date("2024-08-10");
+    let user = await userModel.find({
+      createdDate: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+    res.send(user);
+  });
+
+// Q.4 How can i sort documents by a field in descending order
   
 
 module.exports = router;
