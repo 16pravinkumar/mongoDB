@@ -7,15 +7,14 @@ router.get("/",  function (req, res, next) {
 });
 
 
-// router.get("/create", async function (req, res, next) {
-//  let user = await userModel.create({
-//     userName: " Sharma Pravinkumar",
-//     nickName: "Sharma16",
-//     description: "Im a ui/ix developer ",
-//     categories: ["figma", "HTML", "CSS"],
-//   });
-//   res.send(user)
-// });
+router.get("/create", async function (req, res, next) {
+ let user = await userModel.create({
+    userName: " Sharma Pravinkumar",
+    nickName: "Sharma16",
+    categories: ["figma", "HTML", "CSS"],
+  });
+  res.send(user)
+});
 
 
 // Q.1 How can i perform a case-sensitive search in mongoDB
@@ -56,7 +55,28 @@ router.get("/findUserCategories", async function (req, res, next) {
     res.send(user);
   });
 
-// Q.4 How can i sort documents by a field in descending order
+// Q.4 How can i filter documents based on the exist of a field in mongoose
+router.get("/findUserDescription", async function (req, res, next) {
+  let user = await userModel.find({ description: { $exists: false } });
+  res.send(user);
+});
+
+// Q.5 How can i filter documents based on a specific field's length in mongoose
+router.get("/findUserLength", async function (req, res, next) {
+  let user = await userModel.find({ 
+    $expr :{
+      $and :[
+        {$gte : [{ $strLenCP : '$nickName'}, 0]},
+        {$lte : [{ $strLenCP : '$nickName'}, 5]}
+      ]
+    }
+
+  });
+ 
+  res.send(user);
+});
+
+// Q.6 How can i sort documents in mongoose
   
 
 module.exports = router;
